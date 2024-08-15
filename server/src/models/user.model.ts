@@ -2,12 +2,12 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 // Define the user interface
-interface IUser extends Document {
+export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
   isVerified: boolean;
-  oldPassword: string[];
+  oldPasswords: string[];
   isAdmin: boolean;
   superAdmin: boolean;
   profile: {
@@ -46,7 +46,7 @@ const userSchema = new Schema<IUser>(
     },
     password: { type: String, required: true },
     isVerified: { type: Boolean, required: true, default: false },
-    oldPassword: { type: [String], default: [] },
+    oldPasswords: { type: [String], default: [] },
     isAdmin: { type: Boolean, default: false },
     profile: {
       gender: { type: String, default: "male" ,enum:["male","female"] },

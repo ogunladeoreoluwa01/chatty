@@ -1,12 +1,14 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import User from "../models/user.model";
+import User, { IUser } from "../models/user.model";
 
-interface AuthenticatedRequest extends Request {
-  user?: any; 
+export interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+  };
 }
 
-const authGuard = async (
+export const authGuard = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
@@ -18,30 +20,29 @@ const authGuard = async (
     try {
       const token = req.headers.authorization.split(" ")[1];
 
-      // Verify the token and cast the payload to an object containing id
+      // Verify token and decode the user ID
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
         id: string;
       };
 
-      // Find the user by id, excluding sensitive fields
-      req.user = await User.findById(decoded.id).select(
-        "-password -oldPassword -notifications -__v"
+      // Find the user by ID, but only need to get the ID here
+      const user = await User.findById(decoded.id).select(
+        "-password -oldPasswords -__v"
       );
 
-      if (!req.user) {
-        return res
-          .status(401)
-          .json({ message: "Not authorized, user not found" });
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
       }
 
+      // Attach only the user ID to the request
+      req.user = { id: user.id };
+
       next();
-    } catch (error) {
-      console.error(error);
-      return res.status(401).json({ message: "Not authorized, token failed" });
+    } catch (err) {
+      console.error(err);
+      return res.status(401).json({ message: "Token verification failed" });
     }
   } else {
-    return res.status(401).json({ message: "Not authorized, no token" });
+    return res.status(401).json({ message: "No token provided" });
   }
 };
-
-export default authGuard;
