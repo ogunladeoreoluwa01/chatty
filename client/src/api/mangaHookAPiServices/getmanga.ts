@@ -9,7 +9,7 @@ interface UserParams {
 // Define an interface for the API response data (customize based on your API response structure)
 interface UserResponse {
   message: string;
-  user:IUser;
+  user:any;
 }
 
 // Define an interface for the error structure

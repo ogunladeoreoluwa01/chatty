@@ -10,6 +10,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import App from './App.tsx'
+import TEST from '@/pages/TEST'
 import './index.css'
 
 // Create a client
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element:<App/>,
+  },
+  {
+    path: "/test",
+    element:<TEST/>,
   },
 ]);
 
