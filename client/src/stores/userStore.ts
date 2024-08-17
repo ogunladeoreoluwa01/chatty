@@ -1,18 +1,29 @@
 import { create } from "zustand";
 import { persist, createJSONStorage, devtools } from "zustand/middleware";
+import { RefreshState,AccessState,UserIdState,BookmarksState } from '@/types/types';
 
 
-interface AccessState {
-  accessToken: string|null;
-  setAccessToken: (accessToken: string) => void;
-  removeAccessToken: () => void;   
-}
-
-interface RefreshState {
-  refreshToken: string | null;
-  setRefreshToken: (refreshToken: string) => void;
-  removeRefreshToken: () => void;
-}
+export const useBookmarkStore = create<BookmarksState>()(
+  devtools(
+    persist(
+      (set) => ({
+        bookmarks: [],
+        setBookmarks: (bookmarks) => set({ bookmarks }),
+        addBookmark: (bookmark) =>
+          set((state) => ({ bookmarks: [...state.bookmarks, bookmark] })),
+        removeBookmark: (bookmark) =>
+          set((state) => ({
+            bookmarks: state.bookmarks.filter((b) => b !== bookmark),
+          })),
+        clearBookmarks: () => set({ bookmarks: [] }),
+      }),
+      {
+        name: "bookmark",
+        storage: createJSONStorage(() => localStorage),
+      }
+    )
+  )
+);
 
 export const useAccessStore = create<AccessState>()(
   devtools(
@@ -24,6 +35,22 @@ export const useAccessStore = create<AccessState>()(
       }),
       {
         name: "accessToken",
+        storage: createJSONStorage(() => localStorage),
+      }
+    )
+  )
+);
+
+export const useUserIdStore = create<UserIdState>()(
+  devtools(
+    persist(
+      (set) => ({
+        userId: null,
+        setUserId: (userId) => set({ userId }),
+        removeUserId: () => set({ userId: null }),
+      }),
+      {
+        name: "userId",
         storage: createJSONStorage(() => localStorage),
       }
     )

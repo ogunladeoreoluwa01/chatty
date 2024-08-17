@@ -55,6 +55,7 @@ const userSchema = new Schema<IUser>(
       profileImage: { type: String, default: "" },
       bannerImage: { type: String, default: "" },
       friends: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
+      bookmarks:[{type:String,default:[]}]
     },
     achievements: [{type: Schema.Types.ObjectId, ref: "Achievement", default: []}],
     ban:{

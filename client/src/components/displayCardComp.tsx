@@ -58,10 +58,10 @@ const DisplayCardComp: React.FC<detailCardProp> = ({
                 fetchPriority="high"
                 loading="lazy"
               />
-              <p className="absolute font-bold py-auto text-xs top-0 px-1 bg-primary right-0 rounded-tr-[0.5rem] rounded-bl-[0.5rem] flex items-center justify-center min-w-[6.375rem]  max-w-[8rem] z-20 h-[1.1rem] truncate overflow-hidden whitespace-nowrap text-ellipsis ">
+              <div  className="absolute font-bold py-auto text-xs top-0 px-1 bg-primary right-0 rounded-tr-[0.5rem] rounded-bl-[0.5rem] flex items-center justify-center min-w-[6.375rem]  max-w-[8rem] z-20 h-[1.1rem] truncate overflow-hidden whitespace-nowrap text-ellipsis ">
                 {isNew && "New!"}{" "}
                 {mangaLatestChapter.replace("chapter", "Ch").trim()}
-              </p>
+              </div>
             </CardContent>
             <CardFooter className="flex flex-col items-start w-[9.6875rem] px-0 py-1 border-none">
               <CardDescription className="leading-[0.9rem]">

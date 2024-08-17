@@ -12,18 +12,30 @@ import {
 import App from './App.tsx'
 import TEST from '@/pages/TEST'
 import './index.css'
+import Layout from './layout.tsx';
 
 // Create a client
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
+    path: "/app",
+    element: <App />,
+    children: [],
+  },
+  {
     path: "/",
-    element:<App/>,
+    element: <Layout/>,
+    children: [
+      {
+        path: "/home",
+        element: <App />,
+      },
+    ],
   },
   {
     path: "/test",
-    element:<TEST/>,
+    element: <TEST />,
   },
 ]);
 

@@ -17,7 +17,7 @@ export function ModeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="bg-primary hover:bg-primary shadow-[.25rem_.25rem_0rem_-0.0625rem_rgb(28,28,28)] hover:shadow-[.28rem_.28rem_0rem_-0.0625rem_rgb(28,28,28)] border-2 border-[rgb(28,28,28)] dark:shadow-[.25rem_.25rem_0rem_-0.0625rem_rgb(240,249,255)] dark:hover:shadow-[.28rem_.28rem_0rem_-0.0625rem_rgb(240,249,255)]  dark:border-[rgb(240,249,255)] transition-all duration-150 ease-linear focus:font-extrabold"
+          className="bg-primary hover:bg-primary   border-2 border-[rgb(28,28,28)]  hover:scale-105  dark:border-[rgb(240,249,255)] transition-all duration-150 ease-linear focus:font-extrabold"
           size="icon"
         >
           <MdSunny className="h-[1.2rem] text-foreground w-[1.2rem] rotate-0 scale-100 transition-all   dark:-rotate-90 dark:scale-0" />
