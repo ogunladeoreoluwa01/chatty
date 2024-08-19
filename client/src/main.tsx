@@ -13,6 +13,8 @@ import App from './App.tsx'
 import TEST from '@/pages/TEST'
 import './index.css'
 import Layout from './layout.tsx';
+import HomePage from './pages/home.tsx';
+import MangaDetailPage from './pages/mangaDetail.tsx';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -25,11 +27,31 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Layout/>,
+    element: <Layout />,
     children: [
       {
-        path: "/home",
-        element: <App />,
+        path: "home",
+        element: <HomePage />,
+      },
+      {
+        path: "manga-details/:mangaId",
+        element: <MangaDetailPage />,
+      },
+      {
+        path: "home",
+        element: <HomePage />,
+      },
+      {
+        path: "home",
+        element: <HomePage />,
+      },
+      {
+        path: "home",
+        element: <HomePage />,
+      },
+      {
+        path: "home",
+        element: <HomePage />,
       },
     ],
   },

@@ -2,22 +2,21 @@ import { ModeToggle } from "@/components/mode-toggle";
 import NavBarComp from "@/components/navBarComp";
 import  React  from "react";
 import { useState,useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Separator } from "@/components/ui/separator";
 import { GiBookmark, GiCrystalEye } from "react-icons/gi";
 import { Button } from "@/components/ui/button";
-import {Link,  useNavigate} from "react-router-dom"
+import {Link} from "react-router-dom"
 import { MangaList } from "@/types/types";
-
+import fetchMangaList from "@/api/mangaHookAPiServices/getmanga";
+import { useQuery} from "@tanstack/react-query";
 
 interface HomeCaroselProp {
   mangaList: MangaList[];
@@ -136,12 +135,15 @@ const mangas: MangaList[] = [
 ];
 
 
-const HomeCarosel: React.FC<HomeCaroselProp> = ({ mangaList = mangas }) => {
+const HomeCarosel: React.FC = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
-  const navigate = useNavigate()
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["mangaList","topview"],
+    queryFn: () => fetchMangaList({ page: 1, type: " topview " }),
+  });
 
   useEffect(() => {
     if (!api) {
@@ -164,41 +166,47 @@ const HomeCarosel: React.FC<HomeCaroselProp> = ({ mangaList = mangas }) => {
 
   
   return (
-
-
-      <div>
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 5000,
-            }),
-          ]}
-          setApi={setApi}
-          className="w-[90vw]  overflow-hidden h-[20rem]"
-        >
-          <CarouselContent className="w-full h-full">
-            {mangaList.slice(0, 8).map((manga, index) => (
+    <div>
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        plugins={[
+          Autoplay({
+            delay: 5000,
+          }),
+        ]}
+        setApi={setApi}
+        className="w-[100vw] md:w-[95vw] overflow-hidden mx-auto h-[20rem]"
+      >
+        <CarouselContent className="w-full h-full ">
+          {isPending ? (
+            <CarouselItem className="relative ">
+              <div className="w-full flex p-2 h-[18rem] justify-center md:justify-around items-center">
+                <Skeleton className="w-full bg-primary md:w-[11.6875rem] h-[17.25rem] md:h-[16.25rem] rounded-[0.5rem]  border-2 border-foreground relative" />
+                <Skeleton className="w-2/3 hidden md:inline-block h-[16.25rem] rounded-[0.5rem] bg-primary  retro-box-shadow p-4" />
+              </div>
+            </CarouselItem>
+          ) : (
+            data?.mangaList.slice(0, 11).map((manga, index) => (
               <CarouselItem key={index} className="relative">
-                <div className="w-full flex  p-2 h-[18rem] justify-around items-center">
+                <div className="w-full flex p-2 h-[18rem] justify-center md:justify-around  items-center">
                   <Link
                     to={`/manga-details/${manga.id}`}
-                    className="w-full md:w-[11.6875rem] h-[16.25rem] rounded-[0.5rem] bg-foreground border-2 border-foreground relative"
+                    className="w-full ml-3 md:w-[11.6875rem] h-[17.25rem] md:h-[16.25rem] rounded-[0.5rem] bg-foreground border-2 border-foreground relative"
                   >
                     <img
                       src={manga.image}
-                      alt={`image for  ${manga.title}`}
-                      className="w-full md:w-[11.6875rem] h-[16.25rem] rounded-[0.5rem] object-cover border-2 border-foreground"
+                      alt={`image for ${manga.title}`}
+                      className="w-full  h-full rounded-[0.5rem] object-cover border-2 border-foreground"
                     />
                   </Link>
                   <Link
                     to={`/manga-details/${manga.id}`}
-                    className="w-2/3 hidden md:inline-block h-[16.25rem] rounded-[0.5rem] bg-primary text-foreground  retro-box-shadow p-4"
+                    className="w-2/3 hidden md:inline-block h-[16.25rem] rounded-[0.5rem] bg-primary text-foreground retro-box-shadow p-4"
                   >
-                    <h1 className="font-black   capitalize w-full text-xl leading-[0.9rem] h-fit my-1">
+                    <h1 className="font-black capitalize w-full text-xl leading-[0.9rem] h-fit my-1">
                       {manga.title.slice(0, 55)}
                       {manga.title.length > 55 && "..."}
                     </h1>
@@ -212,27 +220,28 @@ const HomeCarosel: React.FC<HomeCaroselProp> = ({ mangaList = mangas }) => {
                     </p>
                     <Separator className="bg-popover-foreground my-1" />
                     <div className="flex justify-between items-center">
-                      <Button className="font-black flex items-center gap-1  text-sm capitalize bg-foreground text-primary hover:scale-105 hover:bg-foreground transition-all leading-[0.9rem] h-fit">
+                      <Button className="font-black flex items-center gap-1 text-sm capitalize bg-foreground text-primary hover:scale-105 hover:bg-foreground transition-all leading-[0.9rem] h-fit">
                         <GiBookmark />
                       </Button>
-                      <p className="font-black flex items-center justify-end gap-1  text-sm capitalize  leading-[0.9rem] h-fit">
+                      <p className="font-black flex items-center justify-end gap-1 text-sm capitalize leading-[0.9rem] h-fit">
                         <GiCrystalEye />
                         {manga.view}.views
                       </p>
                     </div>
                   </Link>
                 </div>
-                <h1 className="font-black text-center text-primary block md:hidden  capitalize w-full text-xl ">
+                <h1 className="font-black text-center text-primary block md:hidden capitalize w-full text-xl">
                   {manga.title}
-            
                 </h1>
               </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+            ))
+          )}
+        </CarouselContent>
+      </Carousel>
 
+      {!isPending && (
         <div className="my-1 text-center flex gap-2 justify-center items-center text-sm text-muted-foreground">
-          {mangaList.slice(0, 8).map((_, index) => (
+          {Array.from({ length: 11 }).map((_, index) => (
             <div
               onClick={() => handleDotClick(index)}
               className={`w-3 h-3 rounded-full ${
@@ -244,8 +253,8 @@ const HomeCarosel: React.FC<HomeCaroselProp> = ({ mangaList = mangas }) => {
             ></div>
           ))}
         </div>
-      </div>
-      
+      )}
+    </div>
   );
 };
 

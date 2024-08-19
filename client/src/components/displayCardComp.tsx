@@ -42,6 +42,8 @@ const DisplayCardComp: React.FC<detailCardProp> = ({
     }
     if (mangaTitle.length > 40) {
       setSliceTitle(mangaTitle.slice(0, 40) + "...");
+    }else{
+       setSliceTitle(mangaTitle);
     }
   }, [mangaDescription, mangaTitle]);
 
@@ -60,7 +62,7 @@ const DisplayCardComp: React.FC<detailCardProp> = ({
               />
               <div  className="absolute font-bold py-auto text-xs top-0 px-1 bg-primary right-0 rounded-tr-[0.5rem] rounded-bl-[0.5rem] flex items-center justify-center min-w-[6.375rem]  max-w-[8rem] z-20 h-[1.1rem] truncate overflow-hidden whitespace-nowrap text-ellipsis ">
                 {isNew && "New!"}{" "}
-                {mangaLatestChapter.replace("chapter", "Ch").trim()}
+                {mangaLatestChapter.replace("chapter", "Ch").trim().slice(0,26)}
               </div>
             </CardContent>
             <CardFooter className="flex flex-col items-start w-[9.6875rem] px-0 py-1 border-none">
@@ -71,7 +73,7 @@ const DisplayCardComp: React.FC<detailCardProp> = ({
           </Card>
         </HoverCardTrigger>
         <HoverCardContent className="  min-h-[5.625rem] bg-primary retro-box-shadow ">
-          <h1 className="font-black min-h-[1.875rem]  capitalize w-full leading-[0.9rem] h-fit">
+          <h1 className="font-black  capitalize w-full leading-[0.9rem] h-fit">
             {mangaTitle}
           </h1>
           <Separator className="bg-popover-foreground my-1" />

@@ -1,29 +1,70 @@
 import MangaApi from "./api";
 
-
 // Define an interface for the function's parameters
-interface UserParams {
-  userId: string|undefined;
+interface MangaListParams {
+  page?: number;
+  type?: string;
+  state?: string;
+  category?: string;
 }
 
 // Define an interface for the API response data (customize based on your API response structure)
-interface UserResponse {
-  message: string;
-  user:any;
+interface MangaListResponse {
+  mangaList: Array<{
+    id: string;
+    image: string;
+    title: string;
+    chapter: string;
+    view: string;
+    description: string;
+  }>;
+  metaData: {
+    totalStories: number;
+    totalPages: number;
+    type: Array<{
+      id: string;
+      type: string;
+    }>;
+    state: Array<{
+      id: string;
+      type: string;
+    }>;
+    category: Array<{
+      id: string;
+      type: string;
+    }>;
+  };
 }
 
 // Define an interface for the error structure
-interface UserError {
+interface MangaListError {
   errorCode: number;
   errorMessage: string;
 }
 
+// Function to build query string from the parameters
+const buildQueryString = (params: MangaListParams): string => {
+  const queryParams = new URLSearchParams();
+
+  if (params.page !== undefined)
+    queryParams.append("page", params.page.toString());
+  if (params.type) queryParams.append("type", params.type);
+  if (params.state) queryParams.append("state", params.state);
+  if (params.category) queryParams.append("category", params.category);
+
+  return queryParams.toString() ? `?${queryParams.toString()}` : "";
+};
+
 // Define the function with type annotations
-const fetchUserById = async ({ userId }: UserParams): Promise<UserResponse> => {
+const fetchMangaList = async (
+  params: MangaListParams = {}
+): Promise<MangaListResponse> => {
   try {
-    const { data } = await MangaApi.get<UserResponse>(
-      `/api/user/user-by-id/${userId}`
+    const queryString = buildQueryString(params); // Build the query string from params
+    const { data } = await MangaApi.get<MangaListResponse>(
+      `/api/mangaList${queryString}` // Append the query string to the URL
     );
+
     return data;
   } catch (error: any) {
     if (error.response) {
@@ -31,7 +72,7 @@ const fetchUserById = async ({ userId }: UserParams): Promise<UserResponse> => {
         JSON.stringify({
           errorCode: error.response.status,
           errorMessage: error.response.data.message,
-        } as UserError)
+        } as MangaListError)
       );
     } else {
       throw new Error(error.message);
@@ -39,4 +80,4 @@ const fetchUserById = async ({ userId }: UserParams): Promise<UserResponse> => {
   }
 };
 
-export default fetchUserById;
+export default fetchMangaList;

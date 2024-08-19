@@ -45,7 +45,7 @@ const HeaderComp: React.FC<HeaderProp> = ({
     navigate("/login");
   };
   return (
-    <header className="w-full sticky z-30 top-0 bg-background bg-opacity-50 flex py-1 justify-between px-2 md:px-4 lg:px-6">
+    <header className="w-full fixed z-30 top-0 bg-background bg-opacity-50 flex py-1 justify-between px-2 md:px-4 lg:px-6">
       {" "}
       <Link
         to={"/"}

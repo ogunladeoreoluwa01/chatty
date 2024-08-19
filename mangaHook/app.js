@@ -4,10 +4,12 @@ const bodyParser = require("body-parser")
 const mangaRouter = require("./routes/mangaRouter")
 const mangaListRouter = require("./routes/mangaListRouter")
 const mangaSearch = require("./routes/mangaSearch")
+const cors = require('cors');
+
 
 app.use(bodyParser.json())
 require('dotenv').config()
-
+app.use(cors());
 app.use(ApiKey)
 app.use("/api/manga", mangaRouter)
 app.use("/api/mangaList", mangaListRouter)

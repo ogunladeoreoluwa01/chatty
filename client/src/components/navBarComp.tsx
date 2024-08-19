@@ -15,7 +15,7 @@ import {
 const NavBarComp: React.FC = () => {
 
   const navigationLinks = [
-    { link: "home", url: "/", icon: GoHomeFill },
+    { link: "home", url: "/home", icon: GoHomeFill },
     {
       link: "explore",
       url: `/manga-list`,

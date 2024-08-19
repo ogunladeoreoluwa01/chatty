@@ -6,6 +6,45 @@ export interface MangaList {
   view: string;
   description: string;
 }
+export interface MangaDetail {
+  imageUrl: string;
+  name: string;
+  author: string;
+  status: "Ongoing" | "Completed" | "Dropped" | "Hiatus";
+  updated: string;
+  view: string;
+  genres: string[];
+  chapterList: Chapter[];
+}
+
+export interface Chapter {
+  id: string;
+  path: string;
+  name: string;
+  view: string;
+  createdAt: string;
+}
+
+export interface ChapterDetail {
+  title: string;
+  currentChapter: string;
+  chapterListIds: ChapterListId[];
+  images: ChapterImage[];
+}
+
+export interface ChapterListId {
+  id: string;
+  name: string;
+}
+
+interface ChapterImage {
+  title: string;
+  image: string;
+}
+
+
+
+
 
 export interface AccessState {
   accessToken: string | null;
@@ -32,3 +71,4 @@ export interface BookmarksState {
   removeBookmark: (bookmark: string) => void;
   clearBookmarks: () => void;
 }
+

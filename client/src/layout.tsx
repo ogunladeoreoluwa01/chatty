@@ -18,7 +18,10 @@ function Layout() {
   return (
     <>
       <HeaderComp username={username} userProfileImg={userImage} />
-      <Outlet />
+      <main className="mt-12 min-h-[90vh]">
+        <Outlet />
+      </main>
+
       <NavBarComp />
     </>
   );

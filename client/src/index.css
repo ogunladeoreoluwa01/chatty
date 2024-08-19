@@ -29,7 +29,7 @@
     --chart-4: 44.92, 94.71%, 62.94%; /* #facd47 */
     --chart-5: 33.87, 100%, 63.53%; /* #ffae45 */
      .retro-box-shadow {
-    @apply shadow-[.375rem_.375rem_0rem_-0.0625rem_rgb(28,28,28)] border-2 border-[rgb(28,28,28)];
+    @apply shadow-[.325rem_.325rem_0rem_-0.0625rem_rgb(28,28,28)] border-2 border-[rgb(28,28,28)];
   }
   }
 
@@ -59,7 +59,7 @@
     --chart-4: 307.59, 37.02%, 46.08%; /* #a14a96 */
     --chart-5: 321.43, 64.81%, 57.65%; /* #d94da7 */
     .retro-box-shadow {
-      @apply shadow-[.375rem_.375rem_0rem_-0.0625rem_rgb(240,249,255)] border-2 border-[rgb(240,249,255)];
+      @apply shadow-[.325rem_.325rem_0rem_-0.0625rem_rgb(240,249,255)] border-2 border-[rgb(240,249,255)];
     }
   }
 }
@@ -125,3 +125,43 @@ Frosted Mint
 Hex: #7bbeb0
 HSL: hsl(165, 33%, 60%)
 Contrast: A soft mint shade, still holding a strong enough contrast against white and dark backgrounds to remain legible and visually appealing. */
+
+
+
+/* Light Mode Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary)); 
+  border-radius: 10px;
+  border: 3px solid hsl(var(--background)); 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--primary-foreground)); 
+}
+
+/* Dark Mode Scrollbar Styling */
+.dark ::-webkit-scrollbar {
+  width: 12px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: hsl(var(--background)); 
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary)); 
+  border-radius: 10px;
+  border: 3px solid hsl(var(--background)); 
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--primary-foreground)); 
+}
